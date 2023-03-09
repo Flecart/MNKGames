@@ -1,9 +1,35 @@
 # MNKGames
 
+- [MNKGames](#mnkgames)
+  - [Summary](#summary)
+  - [Introduction](#introduction)
+  - [The high-level algorithm](#the-high-level-algorithm)
+    - [Topics covered](#topics-covered)
+  - [Markcell and unmarkCell](#markcell-and-unmarkcell)
+  - [The heuristics](#the-heuristics)
+    - [What does it represent](#what-does-it-represent)
+    - [Computing heuristics with sliding windows](#computing-heuristics-with-sliding-windows)
+    - [Detection of double-games and end-of-games](#detection-of-double-games-and-end-of-games)
+    - [Scores for double-game and end-game configurations](#scores-for-double-game-and-end-game-configurations)
+    - [Scores for alignment and proximity](#scores-for-alignment-and-proximity)
+  - [Order of moves](#order-of-moves)
+  - [Timer Test](#timer-test)
+    - [Splitting and using the number of moves](#splitting-and-using-the-number-of-moves)
+    - [Choice of branching factor and depth](#choice-of-branching-factor-and-depth)
+  - [Cost analysis](#cost-analysis)
+    - [markCell and unmarkCell](#markcell-and-unmarkcell-1)
+    - [minPlayer and maxPlayer](#minplayer-and-maxplayer)
+    - [SelectCell and findBestMove](#selectcell-and-findbestmove)
+    - [Analysis of the cost in memory](#analysis-of-the-cost-in-memory)
+  - [Failure approaches](#failure-approaches)
+  - [Possible improvements](#possible-improvements)
+- [Conclusion](#conclusion)
+- [References](#references)
+
 ## Summary
 
 We used a heuristic Minimax algorithm with alpha-beta pruning for resolution
-del *game mnk*, a generalized form of tic-tac-toe. The algorithm uses the evaluation heuristic to find out the order
+of *mnkgames*, a generalized form of tic-tac-toe. The algorithm uses the evaluation heuristic to find out the order
 of exploration of a limited number of nodes and explores them to a predetermined depth level afterwards
 which returns a heuristic value, if the board is not terminal, or a final value, if the board is terminal.
 
@@ -38,21 +64,31 @@ in breadth and depth of exploration.
 
 ### Topics covered
 
-- [*Markcell and unmarkCell*](#markcell-e-unmarkcell)
+This high level details of the topics we cover in this document
+
+[*Markcell and unmarkCell*](#markcell-and-unmarkcell)
   - Faster and cache-friendly version to score
   the cells as marked and to cancel what is marked
-- [*Heuristics*](#leuristics)
+
+
+[*Heuristics*](#the-heuristics)
   - Explanation, calculation and use of heuristics
   for our minimax
-- [*Move order*](#move-order)
+
+
+[*Move order*](#Order-of-moves)
   - On the algorithm used to sort the moves according to
   of the value returned by the heuristic
-- [*Timer test*](#timer-test)
+
+
+[*Timer test*](#timer-test)
   - On the algorithm used to get an estimate of the quantity
   of explorable nodes
   - On the methods of allocating a precise number of moves to the cells chosen for exploration
   - On the choice of branching and depth values
-- [*Cost analysis*](#cost-analysis)
+
+
+[*Cost analysis*](#cost-analysis)
   - On the temporal and spatial complexity of the algorithm
 
 ## Markcell and unmarkCell
@@ -279,9 +315,7 @@ In this section we present a step-by-step computational cost analysis of our alg
 
 ### markCell and unmarkCell
 
-Both the mark and the unmarkCell must first [update
-
-are the free cells](#markcell-e-umarkcell), which both functions do in $O (1)$.
+Both the mark and the unmarkCell must first [update the free cells](#markcell-and-umarkcell), which both functions do in $O (1)$.
 Then they have to update all the cells next to the cell changed to $ O (k ^ 2) $.
 Then update the sorted cells $O (nm \ log branchingFactor)$ (the branching factor is a constant ranging from 7 in the small cases to 3 in the large ones).
 
